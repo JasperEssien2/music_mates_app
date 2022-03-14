@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/core/model/artist.dart';
-import 'package:music_mates_app/music_mates/presentation/widgets/export.dart';
+import 'package:music_mates_app/data/data_export.dart';
+import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

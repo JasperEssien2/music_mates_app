@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/music_mates/presentation/home.dart';
-import 'package:music_mates_app/onboarding/presentation/get_started_screen.dart';
+import 'package:music_mates_app/presentation/presentation_export.dart';
 
 void main() {
   runApp(const MyApp());

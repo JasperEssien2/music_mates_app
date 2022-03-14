@@ -1,4 +1,4 @@
-import 'package:music_mates_app/core/model/artist.dart';
+import 'package:music_mates_app/data/model/artist.dart';
 
 class UserModel {
   UserModel(
@@ -13,6 +13,6 @@ class UserModel {
   UserModel.dummy()
       : name = "Mike Doe",
         imageUrl =
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Eminem_-_Concert_for_Valor_in_Washington%2C_D.C._Nov._11%2C_2014_%282%29_%28Cropped%29.jpg/1280px-Eminem_-_Concert_for_Valor_in_Washington%2C_D.C._Nov._11%2C_2014_%282%29_%28Cropped%29.jpg',
+            'https://cdns-images.dzcdn.net/images/artist/19cc38f9d69b352f718782e7a22f9c32/500x500.jpg',
         favouriteArtist = [ArtistModel.dummy()];
 }

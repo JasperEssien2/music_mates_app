@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
 import 'package:music_mates_app/main.dart';
-import 'package:music_mates_app/onboarding/presentation/widgets/google_button.dart';
+import 'package:music_mates_app/presentation/select_favourite_artist.dart';
+import 'package:music_mates_app/presentation/widgets/google_button.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
@@ -27,11 +28,25 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             ),
             AppSpacing.v24,
             GoogleButton(
-              onPressed: () => Navigator.popAndPushNamed(context, Routes.home),
+              onPressed: () => _googleButtonPressed(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _googleButtonPressed(BuildContext context) async {
+    final selectedArtist = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SelectFavouriteArtist(),
+        fullscreenDialog: true,
+      ),
+    );
+
+    if (selectedArtist == null) return;
+
+    Navigator.popAndPushNamed(context, Routes.home);
   }
 }

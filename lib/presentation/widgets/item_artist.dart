@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
-import 'package:music_mates_app/core/model/artist.dart';
+import 'package:music_mates_app/data/model/artist.dart';
 
 class ItemArtist extends StatelessWidget {
   const ItemArtist({Key? key, required this.artist}) : super(key: key);

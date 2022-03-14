@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/core/model/user_model.dart';
+import 'package:music_mates_app/data/model/user_model.dart';
 
 class ItemMate extends StatelessWidget {
-  const ItemMate({Key? key, required this.userModel, this.radius = 120})
-      : super(key: key);
+  const ItemMate({
+    Key? key,
+    required this.userModel,
+    this.size = 120,
+  }) : super(key: key);
 
   final UserModel userModel;
-  final double radius;
+  final double size;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +31,8 @@ class ItemMate extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.cyan),
       ),
-      height: radius,
-      width: radius,
+      height: size,
+      width: size,
     );
   }
 }

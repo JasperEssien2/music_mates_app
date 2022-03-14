@@ -1,9 +1,10 @@
 import 'dart:math' as math;
 
 mixin MathsMixin {
-  double numberOfCirclesFitInCircumference(double largeRad, double smallRad) {
-    return math.pi / math.asin(smallRad / largeRad);
-  }
+ 
+  double radiusOfSmallCicleInRelationToLargeCircle(
+          double largeRad, int numberOfCircles) =>
+      largeRad * math.sin(math.pi / numberOfCircles);
 
   double unitAngle(int numberOfPoints) => 360 / numberOfPoints;
 }
