@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
-import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/main.dart';
 import 'package:music_mates_app/presentation/select_favourite_artist.dart';
 import 'package:music_mates_app/presentation/widgets/google_button.dart';

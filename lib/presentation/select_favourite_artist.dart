@@ -15,7 +15,7 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
 
   @override
   Widget build(BuildContext context) {
-    final list = List.generate(9, (_) => ArtistModel.dummy(id: _));
+    final list = List.generate(9, (_) => ArtistModel.dummy(id_: _));
 
     return Scaffold(
       appBar: AppBar(
