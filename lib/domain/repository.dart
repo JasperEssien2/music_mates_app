@@ -1,7 +1,7 @@
 abstract class MusicMateRepository {
-  Future<String> createAccount(List<int> favouriteArtistId);
+  Future<String?> createAccount(List<int> favouriteArtistId);
 
-  String fetchUserInfo();
+  String fetchUserInfo(String googleId);
 
   String fetchAllArtist();
 }
