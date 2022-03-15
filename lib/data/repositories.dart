@@ -7,9 +7,26 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   final GoogleSignIn signIn;
 
   @override
-  Future<String> createAccount(List<int> favouriteArtistId) {
-    // TODO: implement createAccount
-    throw UnimplementedError();
+  Future<String> createAccount(List<int> favouriteArtistId) async {
+    final user = await signIn.signIn();
+
+    return """
+    mutation {
+    createUser(name: ${user.displayName}, googleId: "${user.id}", imageUrl: ${user.photoUrl}, favouriteArtists:$favouriteArtistId){
+      user{
+        name
+        googleId
+        id
+        imageUrl
+        favouriteArtists{
+          name
+          description
+          
+        }
+      }
+    }
+  }
+    """;
   }
 
   @override
