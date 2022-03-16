@@ -1,7 +1,11 @@
-abstract class MusicMateRepository {
-  Future<String?> createAccount(List<int> favouriteArtistId);
+import 'package:google_sign_in/google_sign_in.dart';
 
-  String fetchUserInfo(String googleId);
+abstract class MusicMateRepository {
+  Future<GoogleSignInAccount?> googleLogin();
+
+  String createAccount();
+
+  String fetchUserInfo();
 
   String fetchAllArtist();
 }
