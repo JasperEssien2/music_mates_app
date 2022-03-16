@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/repository_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
+import 'package:music_mates_app/presentation/data_controller.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
 
 void main() {
@@ -15,22 +16,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = MusicMateRepositoryImpl(signIn: GoogleSignIn());
-    final client = GraphQLClient(
-      link: HttpLink(''),
-      cache: GraphQLCache(),
-    );
+    final client = GraphQLClient(link: HttpLink(''), cache: GraphQLCache());
     final clientNotifier = ValueNotifier<GraphQLClient>(client);
+    final dataController = AppDataController();
+    final providerEntity =
+        ProviderEntity(repository: repository, dataController: dataController);
 
-    return RepositoryProvider(
-      repository: repository,
+
+    return AppProvider(
+      entity: providerEntity,
       child: GraphQLProvider(
         client: clientNotifier,
-        child: MaterialApp(
-          title: 'Music Mates',
-          theme: _themeData(context),
-          home: const GetStartedScreen(),
-          routes: {
-            Routes.home: (context) => const HomeScreen(),
+        child: Query(
+          options: QueryOptions(
+            document: gql(context.repository.fetchUserInfo(googleId)),
+          ),
+          builder: (QueryResult result,
+              {VoidCallback? refetch, FetchMore? fetchMore}) {
+            var data = result.data;
+            if (result.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return MaterialApp(
+              title: 'Music Mates',
+              theme: _themeData(context),
+              home: const GetStartedScreen(),
+              routes: {
+                Routes.home: (context) => const HomeScreen(),
+              },
+            );
           },
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/repository_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
+import 'package:music_mates_app/presentation/presentation_export.dart';
 import 'package:music_mates_app/presentation/widgets/item_select_artist.dart';
 
 class SelectFavouriteArtist extends StatefulWidget {
@@ -37,26 +40,37 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: list.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (c, index) {
-                  var artist = list[index];
-                  return ItemSelectArtist(
-                    artist: artist,
-                    onTap: () => onTap(artist.id!),
-                    isSelected: selectedArtist.contains(artist.id),
-                  );
-                },
-              ),
-            ),
-            AppSpacing.v24,
-            _DoneButton(selectedArtist: selectedArtist),
-            AppSpacing.v24,
-          ],
+        child: Query(
+          options:
+              QueryOptions(document: gql(context.repository.fetchAllArtist())),
+          builder: (QueryResult result,
+              {VoidCallback? refetch, FetchMore? fetchMore}) {
+            if (result.isLoading) {
+              return const LoadingSpinner();
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (c, index) {
+                      var artist = list[index];
+                      return ItemSelectArtist(
+                        artist: artist,
+                        onTap: () => onTap(artist.id!),
+                        isSelected: selectedArtist.contains(artist.id),
+                      );
+                    },
+                  ),
+                ),
+                AppSpacing.v24,
+                _DoneButton(selectedArtist: selectedArtist),
+                AppSpacing.v24,
+              ],
+            );
+          },
         ),
       ),
     );

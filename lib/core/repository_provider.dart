@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/domain/repository.dart';
+import 'package:music_mates_app/presentation/data_controller.dart';
 
-class RepositoryProvider extends InheritedWidget {
-  const RepositoryProvider(
-      {Key? key, required this.repository, required Widget child})
-      : super(key: key, child: child);
+class ProviderEntity {
+  ProviderEntity({required this.repository, required this.dataController});
 
   final MusicMateRepository repository;
+  final AppDataController dataController;
+}
 
-  static MusicMateRepository of(BuildContext context) {
+class AppProvider extends InheritedWidget {
+  const AppProvider({Key? key, required this.entity, required Widget child})
+      : super(key: key, child: child);
+
+  final ProviderEntity entity;
+
+  static ProviderEntity of(BuildContext context) {
     final InheritedElement? element =
-        context.getElementForInheritedWidgetOfExactType<RepositoryProvider>();
-    assert(element != null, 'No RepositoryProvider found in context');
-    return (element!.widget as RepositoryProvider).repository;
+        context.getElementForInheritedWidgetOfExactType<AppProvider>();
+    assert(element != null, 'No AppProvider found in context');
+    return (element!.widget as AppProvider).entity;
   }
 
   @override
-  bool updateShouldNotify(RepositoryProvider oldWidget) =>
-      repository != oldWidget.repository;
+  bool updateShouldNotify(AppProvider oldWidget) => entity != oldWidget.entity;
 }
 
-extension RepositoryProviderExtension on BuildContext{
+extension AppProviderExtension on BuildContext {
+  MusicMateRepository get repository => AppProvider.of(this).repository;
 
-  MusicMateRepository get repository => RepositoryProvider.of(this);
+  AppDataController get dataController => AppProvider.of(this).dataController;
+
+  GraphQLClient get graphQlClient => GraphQLProvider.of(this).value;
 }
