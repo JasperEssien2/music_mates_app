@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/core/helpers/maths_mixin.dart';
 import 'package:music_mates_app/data/model/user_model.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
@@ -33,9 +34,11 @@ class _MatesConnectState extends State<MatesConnect>
 
   @override
   Widget build(BuildContext context) {
-    final mates = List.generate(9, (index) => UserModel.dummy());
+    final data = context.dataController.data!;
 
-    final currentUser = UserModel.dummy();
+    final mates = UserList.musicMatesJson(data).users;
+
+    final currentUser = UserModel.fromJson(data);
 
     return LayoutBuilder(
       builder: (c, constraints) {

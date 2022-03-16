@@ -18,3 +18,10 @@ class UserModel {
             'https://cdns-images.dzcdn.net/images/artist/19cc38f9d69b352f718782e7a22f9c32/500x500.jpg',
         favouriteArtist = [ArtistModel.dummy()];
 }
+
+class UserList {
+  final List<UserModel> users;
+
+  UserList.musicMatesJson(Map<String, dynamic> data)
+      : users = data['musicMates'].map((e) => UserModel.fromJson(e)).toList();
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/domain/repository.dart';
 import 'package:music_mates_app/presentation/data_controller.dart';
 
@@ -33,4 +35,15 @@ extension AppProviderExtension on BuildContext {
   AppDataController get dataController => AppProvider.of(this).dataController;
 
   GraphQLClient get graphQlClient => GraphQLProvider.of(this).value;
+
+  void showError(ErrorModel error) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(this).showMaterialBanner(
+        MaterialBanner(
+          content: Text(error.error),
+          actions: const [],
+        ),
+      );
+    });
+  }
 }

@@ -11,4 +11,4 @@ abstract class DataController<T> extends ChangeNotifier {
   T? get data => _data;
 }
 
-class AppDataController extends DataController<String> {}
+class AppDataController extends DataController<Map<String, dynamic>> {}

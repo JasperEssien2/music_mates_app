@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
-import 'package:music_mates_app/core/repository_provider.dart';
+import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/main.dart';
-import 'package:music_mates_app/presentation/select_favourite_artist.dart';
-import 'package:music_mates_app/presentation/widgets/google_button.dart';
+import 'package:music_mates_app/presentation/presentation_export.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
@@ -33,9 +34,29 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               options: MutationOptions(
                 document: gql(context.repository.createAccount()),
               ),
-              builder: () => GoogleButton(
-                onPressed: () => _googleButtonPressed(context),
-              ),
+              builder: (RunMutation runMutation, QueryResult? result) {
+                if (result != null) {
+                  if (result.isLoading) {
+                    return const LoadingSpinner();
+                  }
+
+                  if (result.hasException) {
+                    context.showError(
+                      ErrorModel.fromGraphError(
+                        result.exception?.graphqlErrors ?? [],
+                      ),
+                    );
+                  }
+                  if (result.isOptimistic) {
+                    
+                    Navigator.popAndPushNamed(context, Routes.home);
+                  }
+                }
+
+                return GoogleButton(
+                  onPressed: () => _googleButtonPressed(context, runMutation),
+                );
+              },
             ),
           ],
         ),
@@ -43,7 +64,47 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     );
   }
 
-  Future<void> _googleButtonPressed(BuildContext context) async {
+  Future<void> _googleButtonPressed(
+      BuildContext context, RunMutation runMutation) async {
+    final googleUser = await context.repository.googleLogin();
+
+    if (googleUser == null) return;
+
+    final userQueryResult = await context.graphQlClient.query(
+      QueryOptions(
+        document: gql(context.repository.fetchUserInfo()),
+        variables: {'googleId': googleUser.id},
+      ),
+    );
+
+    if (_containsUserInfo(userQueryResult)) {
+      _createUserAccount(context, runMutation, googleUser);
+    } else {
+      context.dataController.setData = userQueryResult.data!;
+      Navigator.pushNamed(context, Routes.home);
+    }
+  }
+
+  _containsUserInfo(QueryResult<dynamic> userQueryResult) =>
+      userQueryResult.data?['userInfo'] == null;
+
+  Future<void> _createUserAccount(BuildContext context,
+      RunMutation<dynamic> runMutation, GoogleSignInAccount googleUser) async {
+    final selectedArtistId = await _moveToSelectArtistScreen(context);
+
+    if (selectedArtistId == null) return;
+
+    runMutation(
+      {
+        'displayName': googleUser.displayName,
+        'googleId': googleUser.id,
+        'photoUrl': googleUser.photoUrl,
+        'favouriteArtistId': selectedArtistId,
+      },
+    );
+  }
+
+  Future<List<int>?> _moveToSelectArtistScreen(BuildContext context) async {
     final selectedArtist = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -52,8 +113,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
       ),
     );
 
-    if (selectedArtist == null) return;
+    if (selectedArtist == null) {
+      context.showError(
+        ErrorModel.fromString("Please select favourite artist"),
+      );
+    }
 
-    Navigator.popAndPushNamed(context, Routes.home);
+    return selectedArtist;
   }
 }

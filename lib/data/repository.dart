@@ -15,7 +15,7 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   String createAccount() {
     return """
     mutation {
-    createUser(name: \$displayName, googleId: \$googleId", imageUrl: \$photoUrl, favouriteArtists: \$favouriteArtistId){
+    createUser(name: \$displayName, googleId: \$googleId, imageUrl: \$photoUrl, favouriteArtists: \$favouriteArtistId){
       user{
         name
         imageUrl
@@ -33,11 +33,13 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   @override
   String fetchAllArtist() {
     return """
-    allArtists{
-      id
-      name
-      imageUrl
-      description
+    query {
+      allArtists {
+            id
+            name
+            imageUrl
+            description
+        }
     }
    """;
   }
