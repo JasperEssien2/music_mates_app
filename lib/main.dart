@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:music_mates_app/core/repository_provider.dart';
+import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
 
 void main() {
@@ -10,13 +14,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Music Mates',
-      theme: _themeData(context),
-      home: const GetStartedScreen(),
-      routes: {
-        Routes.home: (context) => const HomeScreen(),
-      },
+    final repository = MusicMateRepositoryImpl(signIn: GoogleSignIn());
+    final client = GraphQLClient(
+      link: HttpLink(''),
+      cache: GraphQLCache(),
+    );
+    final clientNotifier = ValueNotifier<GraphQLClient>(client);
+
+    return RepositoryProvider(
+      repository: repository,
+      child: GraphQLProvider(
+        client: clientNotifier,
+        child: MaterialApp(
+          title: 'Music Mates',
+          theme: _themeData(context),
+          home: const GetStartedScreen(),
+          routes: {
+            Routes.home: (context) => const HomeScreen(),
+          },
+        ),
+      ),
     );
   }
 

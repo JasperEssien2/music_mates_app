@@ -17,4 +17,5 @@ class ArtistModel {
         imageUrl =
             'https://imageio.forbes.com/specials-images/imageserve/5f754f07d6105e8c6185c377/0x0.jpg?format=jpg&width=1200&fit=bounds',
         description = "This is a very good artist";
+        
 }

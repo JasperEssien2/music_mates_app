@@ -10,18 +10,18 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   Future<String?> createAccount(List<int> favouriteArtistId) async {
     final user = await signIn.signIn();
 
+    if (user == null) return null;
+
     return """
     mutation {
     createUser(name: ${user.displayName}, googleId: "${user.id}", imageUrl: ${user.photoUrl}, favouriteArtists:$favouriteArtistId){
       user{
         name
-        googleId
-        id
         imageUrl
         favouriteArtists{
           name
           description
-          
+          imageUrl
         }
       }
     }
@@ -31,13 +31,38 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
 
   @override
   String fetchAllArtist() {
-    // TODO: implement fetchAllArtist
-    throw UnimplementedError();
+   return """
+    allArtists{
+      id
+      name
+      imageUrl
+      description
+    }
+   """;
   }
 
   @override
   String fetchUserInfo(String googleId) {
-    // TODO: implement fetchUserInfo
-    throw UnimplementedError();
+    return """
+   query{
+
+    userInfo(googleId: $googleId){
+      name
+      imageUrl
+    }
+
+    userFavouriteArtist(googleId: $googleId){
+      name
+      imageUrl
+      description
+    }
+    
+    musicMates(googleId: $googleId){
+      name
+      imageUrl
+    }
+   
+  }
+   """;
   }
 }
