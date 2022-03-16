@@ -7,7 +7,7 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   final GoogleSignIn signIn;
 
   @override
-  Future<String> createAccount(List<int> favouriteArtistId) async {
+  Future<String?> createAccount(List<int> favouriteArtistId) async {
     final user = await signIn.signIn();
 
     return """
@@ -36,7 +36,7 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   }
 
   @override
-  String fetchUserInfo() {
+  String fetchUserInfo(String googleId) {
     // TODO: implement fetchUserInfo
     throw UnimplementedError();
   }
