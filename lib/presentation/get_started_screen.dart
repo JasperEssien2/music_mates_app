@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/repository_provider.dart';
 import 'package:music_mates_app/main.dart';
 import 'package:music_mates_app/presentation/select_favourite_artist.dart';
 import 'package:music_mates_app/presentation/widgets/google_button.dart';
@@ -27,8 +29,13 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               height: 120,
             ),
             AppSpacing.v24,
-            GoogleButton(
-              onPressed: () => _googleButtonPressed(context),
+            Mutation(
+              options: MutationOptions(
+                document: gql(context.repository.createAccount()),
+              ),
+              builder: () => GoogleButton(
+                onPressed: () => _googleButtonPressed(context),
+              ),
             ),
           ],
         ),

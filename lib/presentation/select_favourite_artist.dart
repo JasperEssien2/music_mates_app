@@ -3,8 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/helpers/constants.dart';
 import 'package:music_mates_app/core/repository_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/presentation/presentation_export.dart';
-import 'package:music_mates_app/presentation/widgets/item_select_artist.dart';
+import 'package:music_mates_app/data/model/error.dart';
+import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class SelectFavouriteArtist extends StatefulWidget {
   const SelectFavouriteArtist({Key? key}) : super(key: key);
@@ -18,8 +18,6 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
 
   @override
   Widget build(BuildContext context) {
-    final list = List.generate(9, (_) => ArtistModel.dummy(id_: _));
-
     return Scaffold(
       appBar: AppBar(
         title: RichText(
@@ -48,6 +46,16 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
             if (result.isLoading) {
               return const LoadingSpinner();
             }
+
+            if (result.hasException) {
+              return AppErrorWidget(
+                error: ErrorModel.fromGraphError(
+                  result.exception?.graphqlErrors ?? [],
+                ),
+              );
+            }
+
+            final list = ArtistList.allArtistFromJson(result.data!).artist;
 
             return Column(
               children: [

@@ -1,14 +1,16 @@
 import 'package:music_mates_app/data/model/artist.dart';
 
 class UserModel {
-  UserModel(
-      {required this.name,
-      required this.imageUrl,
-      required this.favouriteArtist});
+  UserModel({required this.name, required this.imageUrl, this.favouriteArtist});
 
   final String? name;
   final String? imageUrl;
   final List<ArtistModel>? favouriteArtist;
+
+  UserModel.fromJson(Map<String, dynamic> data)
+      : name = data['name'],
+        imageUrl = data['imageUrl'],
+        favouriteArtist = [];
 
   UserModel.dummy()
       : name = "Mike Doe",

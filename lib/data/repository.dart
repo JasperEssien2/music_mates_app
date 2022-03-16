@@ -7,14 +7,14 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   final GoogleSignIn signIn;
 
   @override
-  Future<String?> createAccount(List<int> favouriteArtistId) async {
+  Future<String?> createAccount() async {
     final user = await signIn.signIn();
 
     if (user == null) return null;
 
     return """
     mutation {
-    createUser(name: ${user.displayName}, googleId: "${user.id}", imageUrl: ${user.photoUrl}, favouriteArtists:$favouriteArtistId){
+    createUser(name: ${user.displayName}, googleId: "${user.id}", imageUrl: ${user.photoUrl}, favouriteArtists: \$favouriteArtistId){
       user{
         name
         imageUrl
@@ -42,22 +42,22 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   }
 
   @override
-  String fetchUserInfo(String googleId) {
+  String fetchUserInfo() {
     return """
    query{
 
-    userInfo(googleId: $googleId){
+    userInfo(googleId: \$googleId){
       name
       imageUrl
     }
 
-    userFavouriteArtist(googleId: $googleId){
+    userFavouriteArtist(googleId: \$googleId){
       name
       imageUrl
       description
     }
     
-    musicMates(googleId: $googleId){
+    musicMates(googleId: \$googleId){
       name
       imageUrl
     }
