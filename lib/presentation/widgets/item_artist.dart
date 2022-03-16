@@ -12,7 +12,7 @@ class ItemArtist extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
-          image: NetworkImage(artist.imageUrl),
+          image: NetworkImage(artist.imageUrl!),
           fit: BoxFit.cover,
         ),
       ),
@@ -42,7 +42,7 @@ class ItemArtist extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                artist.name,
+                artist.name!,
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -51,7 +51,7 @@ class ItemArtist extends StatelessWidget {
               ),
               AppSpacing.v4,
               Text(
-                artist.description,
+                artist.description!,
                 maxLines: 3,
                 style: const TextStyle(
                   fontSize: 12,

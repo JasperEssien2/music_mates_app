@@ -6,10 +6,10 @@ class ArtistModel {
     required this.id,
   });
 
-  final String name;
-  final String imageUrl;
-  final String description;
-  final int id;
+  final String? name;
+  final String? imageUrl;
+  final String? description;
+  final int? id;
 
   ArtistModel.dummy({int id_ = 0})
       : name = "Artist Name",

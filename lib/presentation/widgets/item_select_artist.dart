@@ -18,11 +18,11 @@ class ItemSelectArtist extends StatelessWidget {
       leading: CircleAvatar(
         radius: 20,
         backgroundColor: Colors.grey[200],
-        backgroundImage: NetworkImage(artist.imageUrl),
+        backgroundImage: NetworkImage(artist.imageUrl!),
       ),
-      title: Text(artist.name),
+      title: Text(artist.name!),
       subtitle: Text(
-        artist.description,
+        artist.description!,
         maxLines: 2,
       ),
       trailing: isSelected
