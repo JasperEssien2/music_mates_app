@@ -6,9 +6,9 @@ class UserModel {
       required this.imageUrl,
       required this.favouriteArtist});
 
-  final String name;
-  final String imageUrl;
-  final List<ArtistModel> favouriteArtist;
+  final String? name;
+  final String? imageUrl;
+  final List<ArtistModel>? favouriteArtist;
 
   UserModel.dummy()
       : name = "Mike Doe",

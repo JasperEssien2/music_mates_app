@@ -47,7 +47,7 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
                   var artist = list[index];
                   return ItemSelectArtist(
                     artist: artist,
-                    onTap: () => onTap(artist.id),
+                    onTap: () => onTap(artist.id!),
                     isSelected: selectedArtist.contains(artist.id),
                   );
                 },
