@@ -15,48 +15,74 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    const backgroundColor = Colors.white;
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: backgroundColor,
+        title: const Text("Music Mates"),
+      ),
+      body: Query(
+        options: QueryOptions(
+          document: gql(
+            context.repository.fetchUserInfo(),
+          ),
+          variables: {
+            'googleId': context.dataController.data['googleId'],
+          },
+        ),
+        builder: (QueryResult result,
+            {VoidCallback? refetch, FetchMore? fetchMore}) {
+          if (result.isLoading) return const LoadingSpinner();
+
+          if (result.hasException) {
+            return AppErrorWidget(
+              error: ErrorModel.fromGraphError(
+                result.exception?.graphqlErrors ?? [],
+              ),
+            );
+          }
+          context.dataController.updateData = result.data!;
+
+          return const _Content();
+        },
+      ),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
 
-    const backgroundColor = Colors.white;
-
-    return Query(
-      options: QueryOptions(document: gql(context.repository.fetchUserInfo())),
-      builder: (QueryResult result,
-          {VoidCallback? refetch, FetchMore? fetchMore}) {
-        if (result.isLoading) return const LoadingSpinner();
-
-        if (result.hasException) {
-          return AppErrorWidget(
-            error: ErrorModel.fromGraphError(
-              result.exception?.graphqlErrors ?? [],
-            ),
-          );
-        }
-        context.dataController.setData = result.data!;
-
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: AppBar(
-            elevation: 1,
-            backgroundColor: backgroundColor,
-            title: const Text("Music Mates"),
-          ),
-          body: SafeArea(
-            child: SizedBox(
-              height: height * 0.6,
+    return Stack(
+      children: [
+        SizedBox(
+          height: height * 0.6,
+          width: size.width,
+          child: const MatesConnect(),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: BottomSheet(
+            onClosing: () {},
+            builder: (c) => Container(
+              margin: const EdgeInsets.all(8),
+              height: height * 0.3,
               width: size.width,
-              child: const MatesConnect(),
+              child: const _MyFavouriteListView(),
             ),
           ),
-          bottomSheet: Container(
-            margin: const EdgeInsets.all(8),
-            height: height * 0.3,
-            width: size.width,
-            child: const _MyFavouriteListView(),
-          ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
@@ -67,8 +93,7 @@ class _MyFavouriteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favouriteArtist =
-        ArtistList.favouriteArtistFromJson(context.dataController.data!)
-            .artists;
+        ArtistList.favouriteArtistFromJson(context.dataController.data).artists;
 
     return ListView.builder(
       itemBuilder: (c, index) => ItemArtist(

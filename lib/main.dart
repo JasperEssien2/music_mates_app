@@ -10,23 +10,29 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final repository = MusicMateRepositoryImpl(signIn: GoogleSignIn());
+  final GraphQLClient client = GraphQLClient(
+    link: HttpLink(
+      'https://music-mates-fun.herokuapp.com/graphql',
+      defaultHeaders: {'Content-Type': 'application/json', 'Charset': 'utf-8'},
+    ),
+    cache: GraphQLCache(),
+  );
+
+  final dataController = AppDataController();
+
+  @override
   Widget build(BuildContext context) {
-    final repository = MusicMateRepositoryImpl(signIn: GoogleSignIn());
-    final client = GraphQLClient(
-        link: HttpLink(
-          'https://music-mates-fun.herokuapp.com/graphql',
-          defaultHeaders: {
-            'Content-Type': 'application/json',
-            'Charset': 'utf-8'
-          },
-        ),
-        cache: GraphQLCache());
     final clientNotifier = ValueNotifier<GraphQLClient>(client);
-    final dataController = AppDataController();
+
     final providerEntity =
         ProviderEntity(repository: repository, dataController: dataController);
 
@@ -52,9 +58,13 @@ class MyApp extends StatelessWidget {
       fontSize: 18,
     );
 
-    final bottomSheetTheme = BottomSheetThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: const Color(0xff51361a),
+    const bottomSheetTheme = BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: Color(0xff51361a),
       elevation: 5,
     );
 
@@ -82,8 +92,4 @@ class Routes {
   Routes._();
 
   static String home = "HomeScreen";
-}
-
-mixin VariablesMixin{
-  
 }

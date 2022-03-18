@@ -34,11 +34,11 @@ class _MatesConnectState extends State<MatesConnect>
 
   @override
   Widget build(BuildContext context) {
-    final data = context.dataController.data!;
+    final data = context.dataController.data;
 
     final mates = UserList.musicMatesJson(data).users;
 
-    final currentUser = UserModel.fromJson(data);
+    final currentUser = UserModel.fromJson(data['userInfo']);
 
     return LayoutBuilder(
       builder: (c, constraints) {
@@ -65,7 +65,8 @@ class _MatesConnectState extends State<MatesConnect>
                       ),
                     ),
                   ),
-                  ..._getList(mates, animValue, isLoading: isLoading),
+                  if (mates.isNotEmpty)
+                    ..._getList(mates, animValue, isLoading: isLoading),
                   Center(
                     child: ItemMate(
                       userModel: currentUser,

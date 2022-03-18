@@ -17,7 +17,7 @@ class ItemMate extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(userModel.imageUrl!),
+          image: NetworkImage(userModel.imageUrl ?? ''),
         ),
         boxShadow: [
           BoxShadow(

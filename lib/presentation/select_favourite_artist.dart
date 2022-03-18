@@ -39,8 +39,11 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
       ),
       body: SafeArea(
         child: Query(
-          options:
-              QueryOptions(document: gql(context.repository.fetchAllArtist())),
+          options: QueryOptions(
+            document: gql(
+              context.repository.fetchAllArtist(),
+            ),
+          ),
           builder: (QueryResult result,
               {VoidCallback? refetch, FetchMore? fetchMore}) {
             if (result.isLoading) {

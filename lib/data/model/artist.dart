@@ -13,7 +13,7 @@ class ArtistModel {
 
   ArtistModel.fromJson(Map<String, dynamic> data)
       : name = data['name'],
-        id = int.parse(data['id']),
+        id = data['id'] == null ? null : int.parse(data['id']),
         imageUrl = data['imageUrl'],
         description = data['description'];
 
@@ -32,7 +32,7 @@ class ArtistList {
       : artists = _getArtist(json['allArtists']);
 
   ArtistList.favouriteArtistFromJson(Map<String, dynamic> json)
-      : artists = _getArtist(json['favouriteArtists']);
+      : artists = _getArtist(json["userFavouriteArtist"]);
 
   static List<ArtistModel> _getArtist(List<dynamic> list) =>
       list.map((e) => ArtistModel.fromJson(e)).toList();

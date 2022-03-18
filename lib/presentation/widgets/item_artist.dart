@@ -8,7 +8,9 @@ class ItemArtist extends StatelessWidget {
   final ArtistModel artist;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width *0.45;
     return Container(
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(

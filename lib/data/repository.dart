@@ -14,19 +14,19 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   @override
   String createAccount() {
     return """
-    mutation {
-    createUser(name: \$displayName, googleId: \$googleId, imageUrl: \$photoUrl, favouriteArtists: \$favouriteArtistId){
-      user{
-        name
-        imageUrl
-        favouriteArtists{
-          name
-          description
-          imageUrl
+    mutation createUser(\$name: String!, \$googleId: String!, \$imageUrl: String!, \$favouriteArtists: [ID]){
+        createUser(name: \$name, googleId: \$googleId, imageUrl: \$imageUrl, favouriteArtists: \$favouriteArtists){
+          user{
+            name
+            imageUrl
+            favouriteArtists {
+              name
+              description
+              imageUrl
+            }
+          }
         }
-      }
     }
-  }
     """;
   }
 
@@ -47,7 +47,7 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
   @override
   String fetchUserInfo() {
     return """
-   query{
+   query UserInfo(\$googleId: String!){
 
     userInfo(googleId: \$googleId){
       name

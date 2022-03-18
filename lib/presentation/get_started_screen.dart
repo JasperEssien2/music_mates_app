@@ -33,6 +33,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             Mutation(
               options: MutationOptions(
                 document: gql(context.repository.createAccount()),
+                onCompleted: (_) =>
+                    Navigator.popAndPushNamed(context, Routes.home),
               ),
               builder: (RunMutation runMutation, QueryResult? result) {
                 if (result != null) {
@@ -46,10 +48,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         result.exception?.graphqlErrors ?? [],
                       ),
                     );
-                  }
-                  if (result.isOptimistic) {
-                    
-                    Navigator.popAndPushNamed(context, Routes.home);
                   }
                 }
 
@@ -78,28 +76,28 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     );
 
     if (_containsUserInfo(userQueryResult)) {
-      _createUserAccount(context, runMutation, googleUser);
+      context.dataController.updateData = {'googleId': googleUser.id};
+      Navigator.popAndPushNamed(context, Routes.home);
     } else {
-      context.dataController.setData = userQueryResult.data!;
-      Navigator.pushNamed(context, Routes.home);
+      _createUserAccount(context, runMutation, googleUser);
     }
   }
 
   _containsUserInfo(QueryResult<dynamic> userQueryResult) =>
-      userQueryResult.data?['userInfo'] == null;
+      userQueryResult.data?['userInfo'] != null;
 
   Future<void> _createUserAccount(BuildContext context,
       RunMutation<dynamic> runMutation, GoogleSignInAccount googleUser) async {
     final selectedArtistId = await _moveToSelectArtistScreen(context);
 
     if (selectedArtistId == null) return;
-
+    context.dataController.updateData = {'googleId': googleUser.id};
     runMutation(
       {
-        'displayName': googleUser.displayName,
+        'name': googleUser.displayName,
         'googleId': googleUser.id,
-        'photoUrl': googleUser.photoUrl,
-        'favouriteArtistId': selectedArtistId,
+        'imageUrl': googleUser.photoUrl!,
+        'favouriteArtists': selectedArtistId,
       },
     );
   }

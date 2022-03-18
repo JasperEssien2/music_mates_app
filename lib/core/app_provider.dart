@@ -38,10 +38,19 @@ extension AppProviderExtension on BuildContext {
 
   void showError(ErrorModel error) {
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      var theme = Theme.of(this);
       ScaffoldMessenger.of(this).showMaterialBanner(
         MaterialBanner(
+          backgroundColor: theme.colorScheme.primary,
+          contentTextStyle:
+              theme.textTheme.headline5!.copyWith(color: Colors.white),
           content: Text(error.error),
-          actions: const [],
+          actions: [
+            InkWell(
+              onTap: () => ScaffoldMessenger.of(this).clearMaterialBanners(),
+              child: const Icon(Icons.close, color: Colors.white),
+            )
+          ],
         ),
       );
     });
