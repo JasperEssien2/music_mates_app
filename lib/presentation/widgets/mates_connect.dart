@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:music_mates_app/core/app_provider.dart';
-import 'package:music_mates_app/core/helpers/maths_mixin.dart';
+import 'package:music_mates_app/core/maths_mixin.dart';
 import 'package:music_mates_app/data/model/user_model.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 

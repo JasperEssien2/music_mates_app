@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/app_provider.dart';
-import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/main.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';

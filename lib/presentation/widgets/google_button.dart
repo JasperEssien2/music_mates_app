@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/constants.dart';
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({Key? key, required this.onPressed}) : super(key: key);
