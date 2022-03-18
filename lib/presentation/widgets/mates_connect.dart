@@ -40,7 +40,6 @@ class _MatesConnectState extends State<MatesConnect>
     return LayoutBuilder(
       builder: (c, constraints) {
         size = Size(constraints.maxWidth, constraints.maxHeight);
-        bool isLoading = true;
 
         return AnimatedBuilder(
           animation: animationController,
@@ -62,7 +61,7 @@ class _MatesConnectState extends State<MatesConnect>
                       ),
                     ),
                   ),
-                  ..._getList(mates, animValue, isLoading: isLoading),
+                  ..._getList(mates, animValue),
                   Center(
                     child: ItemMate(
                       userModel: currentUser,
@@ -77,8 +76,7 @@ class _MatesConnectState extends State<MatesConnect>
     );
   }
 
-  List<Widget> _getList(List<UserModel> mates, double animValue,
-      {bool isLoading = false}) {
+  List<Widget> _getList(List<UserModel> mates, double animValue) {
     final radius = size.width * 0.4;
 
     final endSmallRadius = min(
