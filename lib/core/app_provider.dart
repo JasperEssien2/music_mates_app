@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/data/model/error.dart';
-import 'package:music_mates_app/domain/repository.dart';
+import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/data_controller.dart';
 
 class ProviderEntity {

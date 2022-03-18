@@ -1,17 +1,14 @@
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:music_mates_app/domain/repository.dart';
 
-class MusicMateRepositoryImpl implements MusicMateRepository {
-  MusicMateRepositoryImpl({required this.signIn});
+class MusicMateRepository {
+  MusicMateRepository({required this.signIn});
 
   final GoogleSignIn signIn;
 
-  @override
   Future<GoogleSignInAccount?> googleLogin() {
     return signIn.signIn();
   }
 
-  @override
   String createAccount() {
     return """
     mutation createUser(\$name: String!, \$googleId: String!, \$imageUrl: String!, \$favouriteArtists: [ID]){
@@ -30,7 +27,6 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
     """;
   }
 
-  @override
   String fetchAllArtist() {
     return """
     query {
@@ -44,7 +40,6 @@ class MusicMateRepositoryImpl implements MusicMateRepository {
    """;
   }
 
-  @override
   String fetchUserInfo() {
     return """
    query UserInfo(\$googleId: String!){

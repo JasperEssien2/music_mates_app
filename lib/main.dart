@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final repository = MusicMateRepositoryImpl(signIn: GoogleSignIn());
+  final repository = MusicMateRepository(signIn: GoogleSignIn());
   final GraphQLClient client = GraphQLClient(
     link: HttpLink(
       'https://music-mates-fun.herokuapp.com/graphql',
