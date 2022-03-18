@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/widgets/item_select_artist.dart';
 

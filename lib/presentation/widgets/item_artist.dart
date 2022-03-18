@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/core/helpers/constants.dart';
+import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/model/artist.dart';
 
 class ItemArtist extends StatelessWidget {
