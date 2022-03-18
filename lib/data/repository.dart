@@ -1,11 +1,10 @@
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:music_mates_app/domain/repository.dart';
 
-class MusicMateRepositoryImpl implements MusicMateRepository {
-  MusicMateRepositoryImpl({required this.signIn});
+class MusicMateRepository {
+  MusicMateRepository({required this.signIn});
 
   final GoogleSignIn signIn;
-  
+
   @override
   Future<GoogleSignInAccount?> googleLogin() {
     // TODO: implement googleLogin
