@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/presentation/data_controller.dart';
+import 'package:music_mates_app/presentation/app_data_holder.dart';
 
 class ProviderEntity {
   ProviderEntity({required this.repository, required this.dataController});
 
   final MusicMateRepository repository;
-  final AppDataController dataController;
+  final AppDataHolder dataController;
 }
 
 class AppProvider extends InheritedWidget {
@@ -31,7 +31,7 @@ class AppProvider extends InheritedWidget {
 extension AppProviderExtension on BuildContext {
   MusicMateRepository get repository => AppProvider.of(this).repository;
 
-  AppDataController get dataController => AppProvider.of(this).dataController;
+  AppDataHolder get dataHolder => AppProvider.of(this).dataController;
 
   GraphQLClient get graphQlClient => GraphQLProvider.of(this).value;
 

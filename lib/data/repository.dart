@@ -47,12 +47,11 @@ class MusicMateRepository {
     userInfo(googleId: \$googleId){
       name
       imageUrl
-    }
-
-    userFavouriteArtist(googleId: \$googleId){
-      name
-      imageUrl
-      description
+      favouriteArtists {
+        name
+        imageUrl
+        description
+      }
     }
     
     musicMates(googleId: \$googleId){

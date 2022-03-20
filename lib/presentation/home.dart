@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             context.repository.fetchUserInfo(),
           ),
           variables: {
-            'googleId': context.dataController.data['googleId'],
+            'googleId': context.dataHolder.googleId,
           },
         ),
         builder: (QueryResult result,
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
-          context.dataController.updateData = result.data!;
+          context.dataHolder.appData = result.data!;
 
           return const _Content();
         },
@@ -68,7 +68,7 @@ class _Content extends StatelessWidget {
         SizedBox(
           height: height * 0.6,
           width: size.width,
-          child: const MatesConnect(),
+          child: const MatesRingWidget(),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -93,7 +93,7 @@ class _MyFavouriteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favouriteArtist =
-        ArtistList.favouriteArtistFromJson(context.dataController.data).artists;
+        context.dataHolder.currentUser.favouriteArtist ?? [];
 
     return ListView.builder(
       itemBuilder: (c, index) => ItemArtist(

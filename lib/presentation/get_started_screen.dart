@@ -76,7 +76,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     );
 
     if (_containsUserInfo(userQueryResult)) {
-      context.dataController.updateData = {'googleId': googleUser.id};
+      context.dataHolder.googleId = googleUser.id;
       Navigator.popAndPushNamed(context, Routes.home);
     } else {
       _createUserAccount(context, runMutation, googleUser);
@@ -91,7 +91,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     final selectedArtistId = await _moveToSelectArtistScreen(context);
 
     if (selectedArtistId == null) return;
-    context.dataController.updateData = {'googleId': googleUser.id};
+    context.dataHolder.googleId = googleUser.id;
     runMutation(
       {
         'name': googleUser.displayName,

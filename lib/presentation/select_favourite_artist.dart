@@ -3,7 +3,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class SelectFavouriteArtist extends StatefulWidget {

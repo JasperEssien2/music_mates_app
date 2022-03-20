@@ -10,7 +10,11 @@ class UserModel {
   UserModel.fromJson(Map<String, dynamic> data)
       : name = data['name'],
         imageUrl = data['imageUrl'],
-        favouriteArtist = [];
+        favouriteArtist = data['favouriteArtists'] == null
+            ? []
+            : (data['favouriteArtists'] as List<dynamic>?)
+                ?.map((e) => ArtistModel.fromJson(e))
+                .toList();
 
   UserModel.dummy()
       : name = "Mike Doe",

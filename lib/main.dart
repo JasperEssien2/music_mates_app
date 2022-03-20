@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/presentation/data_controller.dart';
+import 'package:music_mates_app/presentation/app_data_holder.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     cache: GraphQLCache(),
   );
 
-  final dataController = AppDataController();
+  final dataController = AppDataHolder();
 
   @override
   Widget build(BuildContext context) {

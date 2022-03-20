@@ -7,14 +7,14 @@ import 'package:music_mates_app/core/maths_mixin.dart';
 import 'package:music_mates_app/data/model/user_model.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
-class MatesConnect extends StatefulWidget {
-  const MatesConnect({Key? key}) : super(key: key);
+class MatesRingWidget extends StatefulWidget {
+  const MatesRingWidget({Key? key}) : super(key: key);
 
   @override
-  _MatesConnectState createState() => _MatesConnectState();
+  _MatesRingWidgetState createState() => _MatesRingWidgetState();
 }
 
-class _MatesConnectState extends State<MatesConnect>
+class _MatesRingWidgetState extends State<MatesRingWidget>
     with MathsMixin, SingleTickerProviderStateMixin {
   late Size size;
   late final animationController = AnimationController(
@@ -34,11 +34,10 @@ class _MatesConnectState extends State<MatesConnect>
 
   @override
   Widget build(BuildContext context) {
-    final data = context.dataController.data;
+    
+    final mates = context.dataHolder.musicMates;
 
-    final mates = UserList.musicMatesJson(data).users;
-
-    final currentUser = UserModel.fromJson(data['userInfo']);
+    final currentUser = context.dataHolder.currentUser;
 
     return LayoutBuilder(
       builder: (c, constraints) {
