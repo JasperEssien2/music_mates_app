@@ -20,21 +20,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final repository = MusicMateRepository(signIn: GoogleSignIn());
   final GraphQLClient client = GraphQLClient(
-    link: HttpLink(
-      'https://music-mates-fun.herokuapp.com/graphql',
-      defaultHeaders: {'Content-Type': 'application/json', 'Charset': 'utf-8'},
-    ),
+    link: HttpLink('https://music-mates-fun.herokuapp.com/graphql'),
     cache: GraphQLCache(),
   );
 
-  final dataController = AppDataHolder();
+  final dataHolder = AppDataHolder();
 
   @override
   Widget build(BuildContext context) {
     final clientNotifier = ValueNotifier<GraphQLClient>(client);
 
     final providerEntity =
-        ProviderEntity(repository: repository, dataHolder: dataController);
+        ProviderEntity(repository: repository, dataHolder: dataHolder);
 
     return AppProvider(
       entity: providerEntity,
