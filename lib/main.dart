@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
     final clientNotifier = ValueNotifier<GraphQLClient>(client);
 
     final providerEntity =
-        ProviderEntity(repository: repository, dataController: dataController);
+        ProviderEntity(repository: repository, dataHolder: dataController);
 
     return AppProvider(
       entity: providerEntity,
