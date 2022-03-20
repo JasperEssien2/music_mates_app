@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SizedBox(
           height: height * 0.6,
           width: size.width,
-          child: const MatesConnect(),
+          child: const MatesRingWidget(),
         ),
       ),
       bottomSheet: Container(
