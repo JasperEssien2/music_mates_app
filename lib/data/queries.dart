@@ -2,6 +2,11 @@ class MusicMateQueries {
   String createAccount() {
     // TODO: implement createAccount
     throw UnimplementedError();
+  } 
+  
+  String updateUser() {
+    // TODO: implement updateUser
+    throw UnimplementedError();
   }
 
   String fetchAllArtist() {
