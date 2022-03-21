@@ -38,34 +38,15 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
         ),
       ),
       body: SafeArea(
-        child: Query(
-          options: QueryOptions(
-            document: gql(
-              context.queries.fetchAllArtist(),
-            ),
-          ),
-          builder: (QueryResult result,
-              {VoidCallback? refetch, FetchMore? fetchMore}) {
-            if (result.isLoading) {
-              return const LoadingSpinner();
-            }
+        child: Column(
+          children: [
+            Expanded(
+              child: QueryWrapper(
+                queryString: context.queries.fetchAllArtist(),
+                contentBuilder: (data){
+                  final list = ArtistList.allArtistFromJson(data).artists;
 
-            if (result.hasException) {
-              return AppErrorWidget(
-                error: ErrorModel.fromString(
-                  result.exception.toString(),
-                ),
-              );
-            }
-
-            final list = result.data == null
-                ? []
-                : ArtistList.allArtistFromJson(result.data!).artists;
-
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
+                  return ListView.builder(
                     itemCount: list.length,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (c, index) {
@@ -76,14 +57,14 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
                         isSelected: selectedArtist.contains(artist.id),
                       );
                     },
-                  ),
-                ),
-                AppSpacing.v24,
-                _DoneButton(selectedArtist: selectedArtist),
-                AppSpacing.v24,
-              ],
-            );
-          },
+                  );
+                },
+              ),
+            ),
+            AppSpacing.v24,
+            _DoneButton(selectedArtist: selectedArtist),
+            AppSpacing.v24,
+          ],
         ),
       ),
     );

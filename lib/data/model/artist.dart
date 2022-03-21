@@ -29,9 +29,8 @@ class ArtistList {
   final List<ArtistModel> artists;
 
   ArtistList.allArtistFromJson(Map<String, dynamic> json)
-      : artists = _getArtist(json['allArtists']);
-
-
-  static List<ArtistModel> _getArtist(List<dynamic> list) =>
-      list.map((e) => ArtistModel.fromJson(e)).toList();
+      : artists = json['allArtists']
+            .list
+            .map((e) => ArtistModel.fromJson(e))
+            .toList();
 }

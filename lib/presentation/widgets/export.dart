@@ -5,3 +5,4 @@ export 'item_mate.dart';
 export 'item_select_artist.dart';
 export 'loading_spinner.dart';
 export 'mates_ring.dart';
+export 'query_wrapper.dart';

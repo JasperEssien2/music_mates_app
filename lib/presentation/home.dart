@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/presentation/app_provider.dart';
-import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,27 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: backgroundColor,
         title: const Text("Music Mates"),
       ),
-      body: Query(
-        options: QueryOptions(
-          document: gql(
-            context.queries.fetchUserInfo(),
-          ),
-          variables: {
-            'googleId': context.dataHolder.googleId,
-          },
-        ),
-        builder: (QueryResult result,
-            {VoidCallback? refetch, FetchMore? fetchMore}) {
-          if (result.isLoading) return const LoadingSpinner();
-
-          if (result.hasException) {
-            return AppErrorWidget(
-              error: ErrorModel.fromGraphError(
-                result.exception?.graphqlErrors ?? [],
-              ),
-            );
-          }
-          context.dataHolder.appData = result.data!;
+      body: QueryWrapper(
+        queryString: context.queries.fetchUserInfo(),
+        variables: {
+          'googleId': context.dataHolder.googleId,
+        },
+        contentBuilder: (data) {
+          context.dataHolder.appData = data;
 
           return const _Content();
         },
