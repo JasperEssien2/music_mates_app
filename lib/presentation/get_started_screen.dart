@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/main.dart';
 import 'package:music_mates_app/presentation/select_favourite_artist.dart';
@@ -12,6 +13,8 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
+  final googleSignin = GoogleSignIn();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

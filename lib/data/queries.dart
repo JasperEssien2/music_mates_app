@@ -1,15 +1,4 @@
-import 'package:google_sign_in/google_sign_in.dart';
-
-class MusicMateRepository {
-  MusicMateRepository({required this.signIn});
-
-  final GoogleSignIn signIn;
-
-  Future<GoogleSignInAccount?> googleLogin() {
-    // TODO: implement googleLogin
-    throw UnimplementedError();
-  }
-
+class MusicMateQueries {
   String createAccount() {
     // TODO: implement createAccount
     throw UnimplementedError();
