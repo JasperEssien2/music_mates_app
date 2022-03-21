@@ -1,14 +1,4 @@
-import 'package:google_sign_in/google_sign_in.dart';
-
-class MusicMateRepository {
-  MusicMateRepository({required this.signIn});
-
-  final GoogleSignIn signIn;
-
-  Future<GoogleSignInAccount?> googleLogin() {
-    return signIn.signIn();
-  }
-
+class MusicMateQueries {
   String createAccount() {
     return """
     mutation createUser(\$name: String!, \$googleId: String!, \$imageUrl: String!, \$favouriteArtists: [ID]){

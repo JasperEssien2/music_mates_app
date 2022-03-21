@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/core/app_provider.dart';
+import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Query(
         options: QueryOptions(
           document: gql(
-            context.repository.fetchUserInfo(),
+            context.queries.fetchUserInfo(),
           ),
           variables: {
             'googleId': context.dataHolder.googleId,

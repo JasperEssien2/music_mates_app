@@ -5,9 +5,9 @@ import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/app_data_holder.dart';
 
 class ProviderEntity {
-  ProviderEntity({required this.repository, required this.dataHolder});
+  ProviderEntity({required this.queries, required this.dataHolder});
 
-  final MusicMateRepository repository;
+  final MusicMateQueries queries;
   final AppDataHolder dataHolder;
 }
 
@@ -29,7 +29,7 @@ class AppProvider extends InheritedWidget {
 }
 
 extension AppProviderExtension on BuildContext {
-  MusicMateRepository get repository => AppProvider.of(this).repository;
+  MusicMateQueries get queries => AppProvider.of(this).queries;
 
   AppDataHolder get dataHolder => AppProvider.of(this).dataHolder;
 

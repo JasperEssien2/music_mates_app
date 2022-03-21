@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/app_data_holder.dart';
+import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
 
 void main() {
@@ -18,21 +17,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final repository = MusicMateRepository(signIn: GoogleSignIn());
   final GraphQLClient client = GraphQLClient(
     link: HttpLink('https://music-mates-fun.herokuapp.com/graphql'),
     cache: GraphQLCache(),
   );
 
+  late final ValueNotifier<GraphQLClient> clientNotifier =
+      ValueNotifier<GraphQLClient>(client);
+
   final dataHolder = AppDataHolder();
+
+  final queries = MusicMateQueries();
+
+  late final ProviderEntity providerEntity =
+      ProviderEntity(queries: queries, dataHolder: dataHolder);
 
   @override
   Widget build(BuildContext context) {
-    final clientNotifier = ValueNotifier<GraphQLClient>(client);
-
-    final providerEntity =
-        ProviderEntity(repository: repository, dataHolder: dataHolder);
-
     return AppProvider(
       entity: providerEntity,
       child: GraphQLProvider(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/core/app_provider.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/main.dart';
+import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
 
 class GetStartedScreen extends StatefulWidget {
@@ -15,6 +15,8 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
+  final googleSignin = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +34,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             AppSpacing.v24,
             Mutation(
               options: MutationOptions(
-                document: gql(context.repository.createAccount()),
+                document: gql(context.queries.createAccount()),
                 onCompleted: (_) =>
                     Navigator.popAndPushNamed(context, Routes.home),
               ),
@@ -64,27 +66,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
   Future<void> _googleButtonPressed(
       BuildContext context, RunMutation runMutation) async {
-    final googleUser = await context.repository.googleLogin();
+    final googleUser = await googleSignin.signIn();
 
     if (googleUser == null) return;
 
-    final userQueryResult = await context.graphQlClient.query(
-      QueryOptions(
-        document: gql(context.repository.fetchUserInfo()),
-        variables: {'googleId': googleUser.id},
-      ),
-    );
-
-    if (_containsUserInfo(userQueryResult)) {
-      context.dataHolder.googleId = googleUser.id;
-      Navigator.popAndPushNamed(context, Routes.home);
-    } else {
-      _createUserAccount(context, runMutation, googleUser);
-    }
+    _createUserAccount(context, runMutation, googleUser);
   }
-
-  _containsUserInfo(QueryResult<dynamic> userQueryResult) =>
-      userQueryResult.data?['userInfo'] != null;
 
   Future<void> _createUserAccount(BuildContext context,
       RunMutation<dynamic> runMutation, GoogleSignInAccount googleUser) async {

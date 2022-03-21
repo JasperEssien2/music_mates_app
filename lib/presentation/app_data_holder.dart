@@ -10,12 +10,9 @@ class AppDataHolder {
   late List<UserModel> _musicMates;
   List<UserModel> get musicMates => _musicMates;
 
-
   set appData(Map<String, dynamic> data) {
     _musicMates = UserList.musicMatesJson(data).users;
 
     _currentUser = UserModel.fromJson(data['userInfo']);
-
-   
   }
 }

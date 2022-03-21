@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/core/app_provider.dart';
+import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
@@ -40,7 +40,7 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
         child: Query(
           options: QueryOptions(
             document: gql(
-              context.repository.fetchAllArtist(),
+              context.queries.fetchAllArtist(),
             ),
           ),
           builder: (QueryResult result,
