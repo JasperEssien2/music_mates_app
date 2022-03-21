@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/data_export.dart';
+import 'package:music_mates_app/main.dart';
+import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class SelectFavouriteArtist extends StatefulWidget {
@@ -111,33 +112,59 @@ class _DoneButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = selectedArtist.length >= 2;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35),
-      child: TextButton(
-        style: ButtonStyle(
-          enableFeedback: isEnabled,
-          backgroundColor: MaterialStateProperty.all(
-            Colors.grey[300],
-          ),
-        ),
-        onPressed: () =>
-            isEnabled ? Navigator.pop(context, selectedArtist) : null,
-        child: SizedBox(
-          width: double.infinity,
-          child: Center(
-            child: Opacity(
-              opacity: isEnabled ? 1 : 0.2,
-              child: const Text(
-                "DONE",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+    return Mutation(
+      options: MutationOptions(
+        document: gql(context.queries.updateUser()),
+        onCompleted: (_) => Navigator.popAndPushNamed(context, Routes.home),
+      ),
+      builder: (RunMutation runMutation, QueryResult? result) {
+        if (result!.isLoading) return const LoadingSpinner();
+
+        if (result.hasException) {
+          context.showError(ErrorModel.fromString(result.exception.toString()));
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          child: TextButton(
+            style: ButtonStyle(
+              enableFeedback: isEnabled,
+              backgroundColor: MaterialStateProperty.all(
+                Colors.grey[300],
+              ),
+            ),
+            onPressed: () {
+              if (isEnabled) {
+                runMutation(
+                  {
+                    'googleId': context.dataHolder.googleId,
+                    'favouriteArtists': selectedArtist,
+                  },
+                );
+              } else {
+                context.showError(
+                  ErrorModel.fromString("Please select favourite artist"),
+                );
+              }
+            },
+            child: SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Opacity(
+                  opacity: isEnabled ? 1 : 0.2,
+                  child: const Text(
+                    "DONE",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
           home: const GetStartedScreen(),
           routes: {
             Routes.home: (context) => const HomeScreen(),
+            Routes.selectArtist: (context) => const SelectFavouriteArtist(),
           },
         ),
       ),
@@ -90,4 +91,5 @@ class Routes {
   Routes._();
 
   static String home = "HomeScreen";
+  static String selectArtist = "Select Artist";
 }

@@ -35,8 +35,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             Mutation(
               options: MutationOptions(
                 document: gql(context.queries.createAccount()),
-                onCompleted: (_) =>
-                    Navigator.popAndPushNamed(context, Routes.home),
+                onCompleted: (data) => _onCompleted(data, context),
               ),
               builder: (RunMutation runMutation, QueryResult? result) {
                 if (result != null) {
@@ -64,46 +63,32 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
     );
   }
 
+  void _onCompleted(data, BuildContext context) {
+    final favouriteArtists = data['createUser']['user']['favouriteArtists'];
+
+    final bool hasSelectedArtist =
+        favouriteArtists != null && favouriteArtists.isNotEmpty;
+    Navigator.popAndPushNamed(
+      context,
+      hasSelectedArtist ? Routes.home : Routes.selectArtist,
+    );
+  }
+
   Future<void> _googleButtonPressed(
       BuildContext context, RunMutation runMutation) async {
     final googleUser = await googleSignin.signIn();
 
     if (googleUser == null) return;
 
-    _createUserAccount(context, runMutation, googleUser);
-  }
-
-  Future<void> _createUserAccount(BuildContext context,
-      RunMutation<dynamic> runMutation, GoogleSignInAccount googleUser) async {
-    final selectedArtistId = await _moveToSelectArtistScreen(context);
-
-    if (selectedArtistId == null) return;
     context.dataHolder.googleId = googleUser.id;
+
     runMutation(
       {
         'name': googleUser.displayName,
         'googleId': googleUser.id,
         'imageUrl': googleUser.photoUrl!,
-        'favouriteArtists': selectedArtistId,
+        'favouriteArtists': [],
       },
     );
-  }
-
-  Future<List<int>?> _moveToSelectArtistScreen(BuildContext context) async {
-    final selectedArtist = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SelectFavouriteArtist(),
-        fullscreenDialog: true,
-      ),
-    );
-
-    if (selectedArtist == null) {
-      context.showError(
-        ErrorModel.fromString("Please select favourite artist"),
-      );
-    }
-
-    return selectedArtist;
   }
 }
