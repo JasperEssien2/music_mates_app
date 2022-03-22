@@ -12,9 +12,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-
     const backgroundColor = Colors.white;
 
     return Scaffold(
@@ -24,19 +21,41 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: backgroundColor,
         title: const Text("Music Mates"),
       ),
-      body: SafeArea(
-        child: SizedBox(
+      body: const _Content(),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = size.height;
+
+    return Stack(
+      children: [
+        SizedBox(
           height: height * 0.6,
           width: size.width,
           child: const MatesRingWidget(),
         ),
-      ),
-      bottomSheet: Container(
-        margin: const EdgeInsets.all(8),
-        height: height * 0.3,
-        width: size.width,
-        child: const _MyFavouriteListView(),
-      ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: BottomSheet(
+            onClosing: () {},
+            builder: (c) => Container(
+              margin: const EdgeInsets.all(8),
+              height: height * 0.3,
+              width: size.width,
+              child: const _MyFavouriteListView(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
