@@ -7,7 +7,14 @@ import 'package:music_mates_app/data/model/user_model.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class MatesRingWidget extends StatefulWidget {
-  const MatesRingWidget({Key? key}) : super(key: key);
+  const MatesRingWidget({
+    Key? key,
+    required this.currentUser,
+    required this.musicMates,
+  }) : super(key: key);
+
+  final List<UserModel> musicMates;
+  final UserModel currentUser;
 
   @override
   _MatesRingWidgetState createState() => _MatesRingWidgetState();
@@ -25,6 +32,7 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
   @override
   void initState() {
     super.initState();
+
     /// This line of code starts the animation
     animationController.forward();
   }
@@ -38,17 +46,16 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
   @override
   Widget build(BuildContext context) {
     /// dummy data for user's music mates
-    final mates = List.generate(9, (index) => UserModel.dummy());
+    final mates = widget.musicMates;
 
     /// dummy data for the current user
     final currentUser = UserModel.dummy();
 
-    /// We want this widget to be adaptable as possible, so we use 
+    /// We want this widget to be adaptable as possible, so we use
     /// [LayoutBuilder] to get the constraint (max width and max height) given to this widget.
     return LayoutBuilder(
       builder: (c, constraints) {
         size = Size(constraints.maxWidth, constraints.maxHeight);
-
 
         return AnimatedBuilder(
           animation: animationController,
@@ -56,6 +63,7 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
             var animValue = animationController.value;
             return Opacity(
               opacity: animValue,
+
               /// We use [Stack] widget so we can flexibly position our widgets
               child: Stack(
                 children: [
@@ -73,7 +81,7 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
                   ),
 
                   /// The spread operator (three dots) is used to add multiple items to a collection.
-                  /// The _getList() method returns the list of circle widgets setting their position 
+                  /// The _getList() method returns the list of circle widgets setting their position
                   ..._getList(mates, animValue),
                   Center(
                     child: ItemMate(
@@ -90,7 +98,6 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
   }
 
   List<Widget> _getList(List<UserModel> mates, double animValue) {
-    
     /// The large circle will be 40% of the screen width
     final radius = size.width * 0.4;
 
@@ -98,8 +105,8 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
     final endSmallRadius = min(
         radiusOfSmallCicleInRelationToLargeCircle(radius, mates.length), 90.0);
 
-    /// This variable holds the small radius based on the animation value, 
-    /// the [lerpDouble()] is used to perform a linear interpoloation between 
+    /// This variable holds the small radius based on the animation value,
+    /// the [lerpDouble()] is used to perform a linear interpoloation between
     /// two doubles and return the current value based on the current [t] value , in this case animation value
     final smallCircleRadius = lerpDouble(0, endSmallRadius, animValue)!;
 
@@ -108,14 +115,13 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
     List<Widget> widgets = [];
 
     for (int i = 0; i < length; i++) {
-
       /// Get the angle for the current index
       final angle = (unitAngle(length.toInt()) * i).radian;
 
       /// set center offset, where motion animation starts from
       final centerOffset = Offset(size.width / 2, size.height / 2);
 
-      /// This offset is where the animation ends, [Offset.fromDirection] returns an offset from an angle. 
+      /// This offset is where the animation ends, [Offset.fromDirection] returns an offset from an angle.
       /// To know more about Offsets visit this link [https://blog.logrocket.com/understanding-offsets-flutter/]
       final destinationOffset = Offset.fromDirection(angle, radius)
           .translate(size.width / 2, size.height / 2);

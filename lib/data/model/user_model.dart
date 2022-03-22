@@ -14,5 +14,10 @@ class UserModel {
       : name = "Mike Doe",
         imageUrl =
             'https://cdns-images.dzcdn.net/images/artist/19cc38f9d69b352f718782e7a22f9c32/500x500.jpg',
-        favouriteArtist = [ArtistModel.dummy()];
+        favouriteArtist = [
+          ArtistModel.dummy(),
+          ArtistModel.dummy(),
+          ArtistModel.dummy(),
+          ArtistModel.dummy(),
+        ];
 }
