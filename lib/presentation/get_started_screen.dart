@@ -4,8 +4,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/model/error.dart';
 import 'package:music_mates_app/main.dart';
-import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
+import 'package:music_mates_app/presentation/query_document_provider.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
@@ -68,6 +68,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
     final bool hasSelectedArtist =
         favouriteArtists != null && favouriteArtists.isNotEmpty;
+        
     Navigator.popAndPushNamed(
       context,
       hasSelectedArtist ? Routes.home : Routes.selectArtist,
@@ -80,7 +81,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
     if (googleUser == null) return;
 
-    context.dataHolder.googleId = googleUser.id;
+    context.cacheGoogleId(googleUser.id);
 
     runMutation(
       {

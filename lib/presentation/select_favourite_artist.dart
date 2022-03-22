@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/core/constants.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/main.dart';
-import 'package:music_mates_app/presentation/app_provider.dart';
+import 'package:music_mates_app/presentation/query_document_provider.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class SelectFavouriteArtist extends StatefulWidget {
@@ -41,10 +41,11 @@ class _SelectFavouriteArtistState extends State<SelectFavouriteArtist> {
         child: Column(
           children: [
             Expanded(
-              child: QueryWrapper(
+              child: QueryWrapper<ArtistList>(
                 queryString: context.queries.fetchAllArtist(),
-                contentBuilder: (data){
-                  final list = ArtistList.allArtistFromJson(data).artists;
+                dataParser: (json) => ArtistList.allArtistFromJson(json),
+                contentBuilder: (data) {
+                  final list = data.artists;
 
                   return ListView.builder(
                     itemCount: list.length,
@@ -118,7 +119,7 @@ class _DoneButton extends StatelessWidget {
               if (isEnabled) {
                 runMutation(
                   {
-                    'googleId': context.dataHolder.googleId,
+                    'googleId': context.retrieveGoogleId,
                     'favouriteArtists': selectedArtist,
                   },
                 );

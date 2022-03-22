@@ -2,38 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/presentation/app_data_holder.dart';
 
-class ProviderEntity {
-  ProviderEntity({required this.queries, required this.dataHolder});
 
-  final MusicMateQueries queries;
-  final AppDataHolder dataHolder;
-}
-
-class AppProvider extends InheritedWidget {
-  const AppProvider({Key? key, required this.entity, required Widget child})
+class QueriesDocumentProvider extends InheritedWidget {
+  const QueriesDocumentProvider(
+      {Key? key, required this.queries, required Widget child})
       : super(key: key, child: child);
 
-  final ProviderEntity entity;
+  final MusicMateQueries queries;
 
-  static ProviderEntity of(BuildContext context) {
-    final InheritedElement? element =
-        context.getElementForInheritedWidgetOfExactType<AppProvider>();
-    assert(element != null, 'No AppProvider found in context');
-    return (element!.widget as AppProvider).entity;
+  static MusicMateQueries of(BuildContext context) {
+    final InheritedElement? element = context
+        .getElementForInheritedWidgetOfExactType<QueriesDocumentProvider>();
+    assert(element != null, 'No MusicMateQueries found in context');
+    return (element!.widget as QueriesDocumentProvider).queries;
   }
 
   @override
-  bool updateShouldNotify(AppProvider oldWidget) => entity != oldWidget.entity;
+  bool updateShouldNotify(QueriesDocumentProvider oldWidget) =>
+      queries != oldWidget.queries;
 }
 
-extension AppProviderExtension on BuildContext {
-  MusicMateQueries get queries => AppProvider.of(this).queries;
-
-  AppDataHolder get dataHolder => AppProvider.of(this).dataHolder;
+extension BuildContextExtension on BuildContext {
+  MusicMateQueries get queries => QueriesDocumentProvider.of(this);
 
   GraphQLClient get graphQlClient => GraphQLProvider.of(this).value;
+
+  void cacheGoogleId(String googleId) {
+    graphQlClient.cache.writeNormalized('AppData', {'googleId': googleId});
+  }
+
+ String get retrieveGoogleId =>
+      graphQlClient.cache.store.get('AppData')!['googleId'];
 
   void showError(ErrorModel error) {
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {

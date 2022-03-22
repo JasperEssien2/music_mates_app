@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:music_mates_app/data/data_export.dart';
-import 'package:music_mates_app/presentation/app_data_holder.dart';
-import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/presentation/presentation_export.dart';
+import 'package:music_mates_app/presentation/query_document_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,17 +24,12 @@ class _MyAppState extends State<MyApp> {
   late final ValueNotifier<GraphQLClient> clientNotifier =
       ValueNotifier<GraphQLClient>(client);
 
-  final dataHolder = AppDataHolder();
-
   final queries = MusicMateQueries();
-
-  late final ProviderEntity providerEntity =
-      ProviderEntity(queries: queries, dataHolder: dataHolder);
 
   @override
   Widget build(BuildContext context) {
-    return AppProvider(
-      entity: providerEntity,
+    return QueriesDocumentProvider(
+      queries: queries,
       child: GraphQLProvider(
         client: clientNotifier,
         child: MaterialApp(

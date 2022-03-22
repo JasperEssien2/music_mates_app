@@ -2,13 +2,19 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:music_mates_app/presentation/app_provider.dart';
 import 'package:music_mates_app/core/maths_mixin.dart';
 import 'package:music_mates_app/data/model/user_model.dart';
 import 'package:music_mates_app/presentation/widgets/export.dart';
 
 class MatesRingWidget extends StatefulWidget {
-  const MatesRingWidget({Key? key}) : super(key: key);
+  const MatesRingWidget({
+    Key? key,
+    required this.musicMates,
+    required this.currentUser,
+  }) : super(key: key);
+
+  final List<UserModel> musicMates;
+  final UserModel currentUser;
 
   @override
   _MatesRingWidgetState createState() => _MatesRingWidgetState();
@@ -34,10 +40,7 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
 
   @override
   Widget build(BuildContext context) {
-    
-    final mates = context.dataHolder.musicMates;
-
-    final currentUser = context.dataHolder.currentUser;
+    final mates = widget.musicMates;
 
     return LayoutBuilder(
       builder: (c, constraints) {
@@ -63,12 +66,9 @@ class _MatesRingWidgetState extends State<MatesRingWidget>
                       ),
                     ),
                   ),
-                  if (mates.isNotEmpty)
-                    ..._getList(mates, animValue),
+                  if (mates.isNotEmpty) ..._getList(mates, animValue),
                   Center(
-                    child: ItemMate(
-                      userModel: currentUser,
-                    ),
+                    child: ItemMate(userModel: widget.currentUser),
                   )
                 ],
               ),
