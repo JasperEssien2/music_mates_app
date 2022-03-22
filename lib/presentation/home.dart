@@ -24,14 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: backgroundColor,
         title: const Text("Music Mates"),
       ),
-      body: QueryWrapper<AppModel>(
+      body: QueryWrapper<HomeModel>(
         queryString: context.queries.fetchUserInfo(),
-        dataParser: (json) => AppModel.fromJson(json),
+        dataParser: (json) => HomeModel.fromJson(json),
         variables: {
           'googleId': context.retrieveGoogleId,
         },
         contentBuilder: (data) {
-          return _Content(data: data);
+          return _Content(model: data);
         },
       ),
     );
@@ -39,9 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.data}) : super(key: key);
+  const _Content({Key? key, required this.model}) : super(key: key);
 
-  final AppModel data;
+  final HomeModel model;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,8 +53,8 @@ class _Content extends StatelessWidget {
           height: height * 0.6,
           width: size.width,
           child: MatesRingWidget(
-            musicMates: data.musicMates,
-            currentUser: data.currentUser,
+            musicMates: model.musicMates,
+            currentUser: model.currentUser,
           ),
         ),
         Align(
@@ -66,7 +66,7 @@ class _Content extends StatelessWidget {
               height: height * 0.3,
               width: size.width,
               child: _MyFavouriteListView(
-                favouriteArtist: data.currentUser.favouriteArtist ?? [],
+                favouriteArtist: model.currentUser.favouriteArtist ?? [],
               ),
             ),
           ),
