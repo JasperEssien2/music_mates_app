@@ -19,6 +19,7 @@ class QueryWrapper<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Query(
       options: QueryOptions(
+        fetchPolicy: FetchPolicy.cacheAndNetwork,
         document: gql(queryString),
         variables: variables ?? const {},
         parserFn: dataParser,
@@ -28,9 +29,8 @@ class QueryWrapper<T> extends StatelessWidget {
         if (result.isLoading) {
           return const LoadingSpinner();
         }
-      
+
         if (result.hasException) {
-          
           return AppErrorWidget(
             error: ErrorModel.fromString(
               result.exception.toString(),
@@ -38,7 +38,7 @@ class QueryWrapper<T> extends StatelessWidget {
           );
         }
 
-        return contentBuilder(result.parserFn(result.data ?? {}) );
+        return contentBuilder(result.parserFn(result.data ?? {}));
       },
     );
   }
