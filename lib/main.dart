@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       home: const GetStartedScreen(),
       routes: {
         Routes.home: (context) => const HomeScreen(),
+        Routes.selectArtist: (context) => const SelectFavouriteArtist(),
       },
     );
   }
@@ -56,4 +57,5 @@ class Routes {
   Routes._();
 
   static String home = "HomeScreen";
+  static String selectArtist = "SelectArtist";
 }
