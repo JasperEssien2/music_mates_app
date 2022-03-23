@@ -85,5 +85,5 @@ class Routes {
   Routes._();
 
   static String home = "HomeScreen";
-  static String selectArtist = "Select Artist";
+  static String selectArtist = "SelectArtist";
 }
