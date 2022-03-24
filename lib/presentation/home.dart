@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:music_mates_app/data/data_export.dart';
 import 'package:music_mates_app/presentation/query_document_provider.dart';
