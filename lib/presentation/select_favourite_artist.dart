@@ -115,20 +115,7 @@ class _DoneButton extends StatelessWidget {
                 Colors.grey[300],
               ),
             ),
-            onPressed: () {
-              if (isEnabled) {
-                runMutation(
-                  {
-                    'googleId': context.retrieveGoogleId,
-                    'favouriteArtists': selectedArtist,
-                  },
-                );
-              } else {
-                context.showError(
-                  ErrorModel.fromString("Please select favourite artist"),
-                );
-              }
-            },
+            onPressed: () => _onButtonPressed(isEnabled, runMutation, context),
             child: SizedBox(
               width: double.infinity,
               child: Center(
@@ -148,5 +135,21 @@ class _DoneButton extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onButtonPressed(
+      bool isEnabled, RunMutation<dynamic> runMutation, BuildContext context) {
+    if (isEnabled) {
+      runMutation(
+        {
+          'googleId': context.retrieveGoogleId,
+          'favouriteArtists': selectedArtist,
+        },
+      );
+    } else {
+      context.showError(
+        ErrorModel.fromString("Please select favourite artist"),
+      );
+    }
   }
 }
