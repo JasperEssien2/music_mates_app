@@ -1,16 +1,17 @@
-# music_mates_app
+# Music Mate
 
-A new Flutter project.
+This is a demo application for an article on graphql. It harness the power of GraphQL as the API rather than REST API.
 
-## Getting Started
+Below is the demo of the application.
 
-This project is a starting point for a Flutter application.
+![A demo of the final app](/display/music-mate-demo.gif)
 
-A few resources to get you started if this is your first Flutter project:
+The feature of this application is simple.
+- Users are asked to select favorite music artists from a predefined list during sign-up.
+- Users should see fellow users that share one or more favorite music artists.
+- Users should see a list of their selected favorite artists.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Below is the flow chart, the technical workings of the application.
+![Flowchart of music mate](/display/music_mate_flowchart.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
